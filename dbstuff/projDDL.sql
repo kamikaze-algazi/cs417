@@ -1,0 +1,70 @@
+CREATE TABLE "PICS" (
+	pic_id		VARCHAR(20),
+	pic_data	BYTEA NOT NULL,
+	pic_name	VARCHAR(255) NOT NULL,
+	pic_type	VARCHAR(5) NOT NULL,
+	PRIMARY KEY (pic_id)
+);
+
+CREATE TABLE "USER" (
+	us_id		VARCHAR(14),
+	us_state	VARCHAR(12),
+	us_city		VARCHAR(20),
+	passwd		VARCHAR(87) NOT NULL,
+	first_name	VARCHAR(20) NOT NULL,
+	last_name	VARCHAR(30) NOT NULL,
+	email		VARCHAR(30) UNIQUE NOT NULL,
+	dob			DATE NOT NULL,
+	age			NUMERIC(3,0) check (age >- 18),
+	prof_pic	VARCHAR(20),
+	PRIMARY KEY (us_id),
+	FOREIGN KEY (prof_pic) REFERENCES "PICS"(pic_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE "EVENT" (
+	ev_id		VARCHAR(12),
+	ev_name		VARCHAR(30) NOT NULL,
+	ev_desc		VARCHAR(1000) NOT NULL,
+	ev_time		TIMESTAMP NOT NULL,
+	ev_street	VARCHAR(40) NOT NULL,
+	ev_city		VARCHAR(20) NOT NULL,
+	ev_state	VARCHAR(12) NOT NULL,
+	ev_zip		VARCHAR(5) NOT NULL,
+	ev_pic		VARCHAR(20),
+	PRIMARY KEY (ev_id),
+	FOREIGN KEY (ev_pic) REFERENCES "PICS"(pic_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE "RSVP" (
+	us_id		VARCHAR(14),
+	ev_id		VARCHAR(12),
+	PRIMARY KEY (us_id, ev_id),
+	FOREIGN KEY (us_id) REFERENCES "USER"
+		ON DELETE CASCADE,
+	FOREIGN KEY (ev_id) REFERENCES "EVENT"
+		ON DELETE CASCADE
+);
+
+CREATE TABLE "POST" (
+	us_id		VARCHAR(14),
+	pt_time		TIMESTAMP,
+	pt_txt		VARCHAR(1000) NOT NULL,
+	pt_pic		VARCHAR(20),
+	PRIMARY KEY (us_id, pt_time),
+	FOREIGN KEY (us_id) REFERENCES "USER"
+		ON DELETE CASCADE,
+	FOREIGN KEY (pt_pic) REFERENCES "PICS"(pic_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE "FOLLOW" (
+	flwr_id		VARCHAR(14),
+	flwe_id		VARCHAR(14),
+	PRIMARY KEY (flwr_id, flwe_id),
+	FOREIGN KEY (flwr_id) REFERENCES "USER"(us_id)
+		ON DELETE CASCADE,
+	FOREIGN KEY (flwe_id) REFERENCES "USER"(us_id)
+		ON DELETE CASCADE	
+);
