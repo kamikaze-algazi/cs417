@@ -2,7 +2,7 @@ import os, web
 from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
 
-import sys; sys.path.insert(0, '/home/sqlfreakz/.secrets')
+import sys; sys.path.insert(0, '/home/alyx/.secrets')
 import psqlauth
 
 web.config.debug = False
