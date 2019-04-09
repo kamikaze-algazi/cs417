@@ -7,7 +7,7 @@ path = '/home/'+getpass.getuser()+'/.secrets'
 import sys; sys.path.insert(0, path)
 import psqlauth
 
-web.config.debug = False
+#web.config.debug = False
 
 def render_template(template_name, **context):
     extensions = context.pop('extensions', [])
@@ -39,10 +39,15 @@ db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
 
 app = web.application(urls, globals())
 
-session = web.session.Session(app,
-          web.session.DiskStore('/var/lib/php/session'),
-              initializer={'loggedIn': False, 'email' : ''}
-          )
+if web.config.get('_session') is None:
+    if "alyx" in path:
+        seshdir = 'sessions'
+    else:
+        seshdir = '/var/lib/php/session'
+    session = web.session.Session(app, web.session.DiskStore(seshdir), initializer={'loggedIn': False, 'email' : ''})
+    web.config._session = session
+else:
+    session = web.config._session
 
 class index:
     def GET(self):
@@ -67,9 +72,8 @@ class login:
             if pbkdf2_sha256.verify(passwd, result['passwd']):
                 session.loggedIn = True
                 session.email = email
-                #raise web.seeother('/home')
-                #posts = list(db.query('SELECT * FROM "POST" WHERE us_id=1 ORDER BY pt_time asc'))
-                #return render_template('home.html', email=session.email, posts=posts)
+                posts = list(db.query('SELECT * FROM "POST" WHERE us_id=1 ORDER BY pt_time asc'))
+                return render_template('home.html', email=session.email, posts=posts)
         except:
             pass
         raise web.seeother('/')
@@ -87,6 +91,7 @@ class logout:
     def POST(self):
         session.loggedIn=False
         session.email=None
+        session.kill()
         return render_template('login.html')
 
 if __name__ == "__main__":
