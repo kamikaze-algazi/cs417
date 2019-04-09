@@ -72,7 +72,7 @@ class login:
             if pbkdf2_sha256.verify(passwd, result['passwd']):
                 session.loggedIn = True
                 session.email = email
-                posts = list(db.query('SELECT * FROM "POST" WHERE us_id=1 ORDER BY pt_time asc'))
+                posts = list(db.query('SELECT * FROM "POST" WHERE us_id IN (SELECT us_id FROM "USER" WHERE email='+session.email+') ORDER BY pt_time asc;'))
                 return render_template('home.html', email=session.email, posts=posts)
         except:
             pass
@@ -82,7 +82,7 @@ class home:
     def GET(self):
         if session.loggedIn:
             userID = db.query('SELECT us_id FROM "USER" WHERE email=\''+session.email+'\';')
-            posts = list(db.query('SELECT * FROM "POST" WHERE us_id='+str(userID[0].us_id)+' ORDER BY pt_time asc'))
+            posts = list(db.query('SELECT * FROM "POST" WHERE us_id='+str(userID[0].us_id)+' ORDER BY pt_time asc;'))
             return render_template('home.html', email=session.email, posts=posts)
         else:
             raise web.seeother('/login')
