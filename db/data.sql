@@ -13,6 +13,8 @@ VALUES ('2', '1');
 
 INSERT INTO "POST"(us_id, pt_txt)
 VALUES ('1', 'Hello, World!');
+INSERT INTO "POST"(us_id, pt_txt)
+VALUES ('2', 'ok');
 
 INSERT INTO "FOLLOW"(flwr_id, flwe_id)
 VALUES ('1', '2');
