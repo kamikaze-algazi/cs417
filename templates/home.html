@@ -6,6 +6,11 @@
 	</head>
 	<body>
 		<h1>Home</h1><br>
+		<ul>
+			{% for post in posts %}
+				<li>{{ post.pt_txt }} (posted at {{ post.pt_time }})
+			{% endfor %}
+		</ul>
 		<form action="logout" method="POST">
 			<input type="submit" value="Logout">
 		</form>

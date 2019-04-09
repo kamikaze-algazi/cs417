@@ -28,9 +28,8 @@ def render_template(template_name, **context):
     return jinja_env.get_template(template_name).render(context)
 
 urls = (
-    '/', 'login',
+    '/', 'index',
     '/login', 'login',
-    '/signup', 'signup',
     '/home', 'home',
     '/logout', 'logout'
 )
@@ -44,6 +43,13 @@ session = web.session.Session(app,
           web.session.DiskStore('/var/lib/php/session'),
               initializer={'loggedIn': False, 'email' : ''}
           )
+
+class index:
+    def GET(self):
+        if session.loggedIn:
+            raise web.seeother('/home')
+        else:
+            raise web.seeother('/login')
 
 class login:
     def GET(self):
@@ -61,18 +67,25 @@ class login:
             if pbkdf2_sha256.verify(passwd, result['passwd']):
                 session.loggedIn = True
                 session.email = email
-                return render_template('home.html', email=session.email)
+                #raise web.seeother('/home')
+                #posts = list(db.query('SELECT * FROM "POST" WHERE us_id=1 ORDER BY pt_time asc'))
+                #return render_template('home.html', email=session.email, posts=posts)
         except:
             pass
         raise web.seeother('/')
 
 class home:
     def GET(self):
-        return "hello"
+        if session.loggedIn:
+            userID = db.query('SELECT us_id FROM "USER" WHERE email=\''+session.email+'\';')
+            posts = list(db.query('SELECT * FROM "POST" WHERE us_id='+str(userID[0].us_id)+' ORDER BY pt_time asc'))
+            return render_template('home.html', email=session.email, posts=posts)
+        else:
+            raise web.seeother('/login')
 
 class logout:
     def POST(self):
-        session.loggenIn=False
+        session.loggedIn=False
         session.email=None
         return render_template('login.html')
 
