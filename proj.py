@@ -43,6 +43,7 @@ urls = (
     '/', 'index',
     '/login', 'login',
     '/home', 'home',
+    '/profile', 'profile',
     '/logout', 'logout'
 )
 
@@ -67,6 +68,9 @@ if web.config.get('_session') is None:
 else:
     session = web.config._session
 
+
+
+
 class index:
     def GET(self):
         if session.loggedIn:
@@ -90,7 +94,9 @@ class login:
             if pbkdf2_sha256.verify(passwd, result['passwd']):
                 session.loggedIn = True
                 session.email = email
-                query = 'SELECT * FROM "POST" WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) ORDER BY pt_time asc;'
+                query = ('SELECT * FROM "POST" '
+                         'WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em)) '
+                         'ORDER BY pt_time asc;')
                 posts = list(db.query(query, vars))
                 return render_template('home.html', email=session.email, posts=posts)
         except:
@@ -100,10 +106,19 @@ class login:
 class home:
     def GET(self):
         if session.loggedIn:
-            query = 'SELECT * FROM "POST" WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) ORDER BY pt_time asc;'
+            query = ('SELECT * FROM "POST" '
+                     'WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) '
+                     'ORDER BY pt_time asc;')
             vars = {'em':session.email}
             posts = list(db.query(query, vars))
             return render_template('home.html', email=session.email, posts=posts)
+        else:
+            raise web.seeother('/login')
+
+class profile:
+    def GET(self):
+        if session.loggedIn:
+            return render_template('profile.html', email=session.email)
         else:
             raise web.seeother('/login')
 
