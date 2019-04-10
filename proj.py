@@ -9,6 +9,16 @@ import psqlauth
 
 #web.config.debug = False
 
+###################### BEGIN HELPER METHODS ######################
+
+# helper method to render a template in the templates/ directory
+#
+# `template_name': name of template file to render
+#
+# `**context': a dictionary of variable names mapped to values
+# that is passed to Jinja2's templating engine
+#
+# WARNING: DO NOT CHANGE THIS METHOD
 def render_template(template_name, **context):
     extensions = context.pop('extensions', [])
     globals = context.pop('globals', {})
@@ -27,6 +37,8 @@ def render_template(template_name, **context):
 
     return jinja_env.get_template(template_name).render(context)
 
+##################### END HELPER METHODS #####################
+
 urls = (
     '/', 'index',
     '/login', 'login',
@@ -39,12 +51,18 @@ db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
 
 app = web.application(urls, globals())
 
+# the outer if else block is a fix for sessions not working in debug mode
+# source: http://webpy.org/cookbook/session_with_reloader
+# the inner if determines the path of the sessions directory,
+# depending on the server (/var/lib for phoenix)
 if web.config.get('_session') is None:
     if "alyx" in path:
         seshdir = 'sessions'
     else:
         seshdir = '/var/lib/php/session'
-    session = web.session.Session(app, web.session.DiskStore(seshdir), initializer={'loggedIn': False, 'email' : ''})
+    session = web.session.Session(app,
+              web.session.DiskStore(seshdir),
+              initializer={'loggedIn': False, 'email' : ''})
     web.config._session = session
 else:
     session = web.config._session
@@ -72,7 +90,8 @@ class login:
             if pbkdf2_sha256.verify(passwd, result['passwd']):
                 session.loggedIn = True
                 session.email = email
-                posts = list(db.query('SELECT * FROM "POST" WHERE us_id IN (SELECT us_id FROM "USER" WHERE email='+session.email+') ORDER BY pt_time asc;'))
+                query = 'SELECT * FROM "POST" WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) ORDER BY pt_time asc;'
+                posts = list(db.query(query, vars))
                 return render_template('home.html', email=session.email, posts=posts)
         except:
             pass
@@ -81,8 +100,9 @@ class login:
 class home:
     def GET(self):
         if session.loggedIn:
-            userID = db.query('SELECT us_id FROM "USER" WHERE email=\''+session.email+'\';')
-            posts = list(db.query('SELECT * FROM "POST" WHERE us_id='+str(userID[0].us_id)+' ORDER BY pt_time asc;'))
+            query = 'SELECT * FROM "POST" WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) ORDER BY pt_time asc;'
+            vars = {'em':session.email}
+            posts = list(db.query(query, vars))
             return render_template('home.html', email=session.email, posts=posts)
         else:
             raise web.seeother('/login')
