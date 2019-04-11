@@ -2,4 +2,4 @@
 psql $USER < ~/public_html/wsgi/db/reset.sql
 psql $USER < ~/public_html/wsgi/db/ddl.sql
 psql $USER < ~/public_html/wsgi/db/data.sql
-python2 proj.py
+python2 proj.py 4242
