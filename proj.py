@@ -2,8 +2,13 @@ import os, web
 from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
 
-import getpass
-path = '/home/'+getpass.getuser()+'/.secrets'
+import socket
+if socket.gethostname()=='alyxmbp.local':
+    path = '/Users/alyx/.secrets'
+elif socket.gethostname()=='phoenix.goucher.edu':
+    path = '/home/sqlfreakz/.secrets'
+else:
+    path = '/home/alyx/.secrets'
 import sys; sys.path.insert(0, path)
 import psqlauth
 
