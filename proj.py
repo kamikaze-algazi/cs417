@@ -63,7 +63,7 @@ app = web.application(urls, globals())
 # depending on the server (/var/lib for phoenix)
 if web.config.get('_session') is None:
     if "alyx" in path:
-        seshdir = 'sessions'
+        seshdir = '~/public_html/wsgi/sessions'
     else:
         seshdir = '/var/lib/php/session'
     session = web.session.Session(app,
