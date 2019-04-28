@@ -1,6 +1,6 @@
 CREATE TABLE "PICS" (
 	pic_id		SERIAL,
-	pic_data	BYTEA NOT NULL,
+	pic_data	OID NOT NULL,
 	pic_name	VARCHAR(255) NOT NULL,
 	pic_type	VARCHAR(5) NOT NULL,
 	PRIMARY KEY (pic_id)
