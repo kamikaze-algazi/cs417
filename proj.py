@@ -62,10 +62,13 @@ app = web.application(urls, globals())
 # the inner if determines the path of the sessions directory,
 # depending on the server (/var/lib for phoenix)
 if web.config.get('_session') is None:
-    if "alyx" in path:
+    if socket.gethostname()=='MBP.local':
         seshdir = '/Users/alyx/public_html/wsgi/sessions'
-    else:
+    elif socket.gethostname()=='phoenix.goucher.edu':
         seshdir = '/var/lib/php/session'
+    else:
+        seshdir = '/home/alyx/public_html/wsgi/sessions'
+
     session = web.session.Session(app,
               web.session.DiskStore(seshdir),
               initializer={'loggedIn': False, 'email' : ''})
