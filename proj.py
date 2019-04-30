@@ -60,7 +60,7 @@ urls = (
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
                   db=psqlauth.db)
 
-app = web.application(urls, globals(), autoreload=True)
+app = web.application(urls, globals())
 
 # the outer if else block is a fix for sessions not working in debug mode
 # source: http://webpy.org/cookbook/session_with_reloader
@@ -209,4 +209,7 @@ class logout:
         session.kill()
         return render_template('login.html')
 
-app.run()
+if __name__ == "__main__":
+    app.run()
+else:
+    application = app.wsgifunc()
