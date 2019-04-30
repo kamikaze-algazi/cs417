@@ -8,7 +8,7 @@
     <h1>Home</h1><br>
     <ul>
       {% for post in posts %}
-        <li><b><a href='profile/{{post.us_id}}'>{{post.us_id}}</a> posted:</b>{{ post.pt_txt }} (posted at {{ post.pt_time }})
+        <li><b><a href='profile/{{post.us_id}}'>{{post.pt_fullname}}</a> posted:</b>{{ post.pt_txt }} (posted at {{ post.pt_time }})
       {% endfor %}
     </ul>
     <form action="logout" method="POST">

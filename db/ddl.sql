@@ -49,6 +49,7 @@ CREATE TABLE "RSVP" (
 
 CREATE TABLE "POST" (
     us_id		INTEGER,
+    pt_fullname VARCHAR(50) NOT NULL,
     pt_time		TIMESTAMP DEFAULT now(),
     pt_txt		VARCHAR(1000) NOT NULL,
     pt_pic		INTEGER,

@@ -15,10 +15,10 @@ VALUES ('2', '1');
 INSERT INTO "RSVP"(us_id, ev_id)
 VALUES ('1', '2');
 
-INSERT INTO "POST"(us_id, pt_txt)
-VALUES ('1', 'Hello, World!');
-INSERT INTO "POST"(us_id, pt_txt)
-VALUES ('2', 'ok');
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt)
+VALUES ('1', 'Alyx Algazi', 'Hello, World!');
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt)
+VALUES ('2', 'Sunny Jones', 'ok');
 
 INSERT INTO "FOLLOW"(flwr_id, flwe_id)
 VALUES ('1', '2');

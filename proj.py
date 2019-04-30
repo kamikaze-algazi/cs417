@@ -52,7 +52,9 @@ urls = (
     '/logout', 'logout',
     '/event/(\d*)', 'event',
     '/rsvp/(\d*)', 'rsvp',
-    '/ursvp/(\d*)', 'ursvp'
+    '/ursvp/(\d*)', 'ursvp',
+    '/follow/(\d*)', 'follow',
+    '/ufollow/(\d*)', 'ufollow'
 )
 
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
@@ -128,13 +130,25 @@ class profile:
     def GET(self, uid):
         if session.loggedIn:
             query = 'SELECT * FROM "USER" WHERE us_id=$uid;'
-            vars = {'uid':uid}
+            vars = {'uid':uid, 'mid':session.user['us_id']}
             prof = db.query(query, vars)[0]
             query = ('SELECT * FROM "EVENT" '
                      'WHERE ev_id IN (SELECT ev_id FROM "RSVP" WHERE us_id=$uid) '
                      'ORDER BY ev_time asc;')
             events = list(db.query(query, vars))
-            return render_template('profile.html', prof=prof, events=events)
+            query = ('SELECT * FROM "USER" '
+                     'WHERE us_id IN (SELECT flwe_id FROM "FOLLOW" WHERE flwr_id=$uid) '
+                     'ORDER BY first_name asc;')
+            following = list(db.query(query, vars))
+            query = ('SELECT CASE WHEN EXISTS '
+                     '(SELECT flwe_id FROM "FOLLOW" WHERE flwr_id=$mid'
+                     ' AND flwe_id=$uid) '
+                     'THEN CAST(1 AS BIT) '
+                     'ELSE CAST(0 AS BIT) END;')
+            isFollowed = bool(int(db.query(query, vars)[0]['case']))
+            isMe = (int(uid) == session.user['us_id'])
+            return render_template('profile.html', prof=prof, events=events,
+                                uid=uid, following=following, isFollowed=isFollowed, isMe=isMe)
         else:
             raise web.seeother('/login')
 
@@ -171,6 +185,22 @@ class ursvp:
         vars = {'uid':session.user['us_id'], 'eid':eid}
         db.query(query, vars)
         raise web.seeother('/event/'+eid)
+
+class follow:
+    def POST(self, uid):
+        query = ('INSERT INTO "FOLLOW"(flwr_id, flwe_id)'
+                 'VALUES ($frid, $feid);')
+        vars = {'frid':session.user['us_id'], 'feid':uid}
+        db.query(query, vars)
+        raise web.seeother('/profile/'+uid)
+
+class ufollow:
+    def POST(self, uid):
+        query = ('DELETE FROM "FOLLOW" '
+                 'WHERE flwr_id=$frid AND flwe_id=$feid;')
+        vars = {'frid':session.user['us_id'], 'feid':uid}
+        db.query(query, vars)
+        raise web.seeother('/profile/'+uid)
 
 class logout:
     def POST(self):
