@@ -5,10 +5,13 @@ from passlib.hash import pbkdf2_sha256
 import socket, getpass
 if getpass.getuser()=='alyx':
     path = '/Users/alyx/.secrets'
+    homedir = '/Users/alyx/'
 elif socket.gethostname()=='phoenix.goucher.edu':
     path = '/home/sqlfreakz/.secrets'
+    homedir = '/home/sqlfreakz/'
 elif socket.gethostname()=='arch4alyx':
     path = '/home/alyx/.secrets'
+    homedir = '/home/alyx/'
 import sys; sys.path.insert(0, path)
 import psqlauth
 
@@ -69,11 +72,9 @@ app = web.application(urls, globals())
 # depending on the server (/var/lib for phoenix)
 if web.config.get('_session') is None:
     if getpass.getuser()=='alyx':
-        seshdir = '/Users/alyx/public_html/wsgi/sessions'
+        seshdir = homedir+'public_html/wsgi/sessions'
     elif socket.gethostname()=='phoenix.goucher.edu':
         seshdir = '/var/lib/php/session'
-    elif socket.gethostname()=='arch4alyx':
-        seshdir = '/home/alyx/public_html/wsgi/sessions'
 
     session = web.session.Session(app,
               web.session.DiskStore(seshdir),
@@ -213,7 +214,7 @@ class images:
             "gif":"images/gif",
             "ico":"images/x-icon"
         }
-        if img in os.listdir('images'):
+        if img in os.listdir(homedir+'public_html/wsgi/images'):
             web.header("Content-Type","attachment; Content-Type", cType[ext])
             return open('images/%s'%img, "rb").read()
         else:
