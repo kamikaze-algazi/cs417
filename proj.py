@@ -51,7 +51,8 @@ urls = (
     '/profile/(\d*)', 'profile',
     '/logout', 'logout',
     '/event/(\d*)', 'event',
-    '/rsvp/(\d*)', 'rsvp'
+    '/rsvp/(\d*)', 'rsvp',
+    '/ursvp/(\d*)', 'ursvp'
 )
 
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
@@ -157,10 +158,19 @@ class event:
 
 class rsvp:
     def POST(self, eid):
-        query = ('INSERT INTO "RSVP"(us_id, ev_id)'
-                     'VALUES ($uid, $eid);')
+        query = ('INSERT INTO "RSVP"(us_id, ev_id) '
+                 'VALUES ($uid, $eid);')
         vars = {'uid':session.user['us_id'], 'eid':eid}
         db.query(query, vars)
+        raise web.seeother('/event/'+eid)
+
+class ursvp:
+    def POST(self, eid):
+        query = ('DELETE FROM "RSVP" '
+                 'WHERE us_id=$uid AND ev_id=$eid;')
+        vars = {'uid':session.user['us_id'], 'eid':eid}
+        db.query(query, vars)
+        raise web.seeother('/event/'+eid)
 
 class logout:
     def POST(self):
