@@ -140,12 +140,18 @@ class profile:
 class event:
     def GET(self, eid):
         if session.loggedIn:
+            query = ('SELECT CASE WHEN EXISTS '
+                     '(SELECT ev_id FROM "RSVP" WHERE us_id=$uid'
+                     ' AND ev_id=$eid) '
+                     'THEN CAST(1 AS BIT) '
+                     'ELSE CAST(0 AS BIT) END;')
+            vars = {'uid':session.user['us_id'], 'eid':eid}
+            going = int(db.query(query, vars)[0]['case'])
             query = ('SELECT * FROM "USER" '
                      'WHERE us_id IN (SELECT us_id FROM "RSVP" WHERE ev_id=$eid) '
                      'ORDER BY first_name asc;')
-            vars = {'eid':eid}
             attending = list(db.query(query, vars))
-            return render_template('event.html', attending=attending, eid=eid)
+            return render_template('event.html', attending=attending, eid=eid, going=going)
         else:
             raise web.seeother('/login')
 
