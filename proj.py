@@ -54,7 +54,8 @@ urls = (
     '/rsvp/(\d*)', 'rsvp',
     '/ursvp/(\d*)', 'ursvp',
     '/follow/(\d*)', 'follow',
-    '/ufollow/(\d*)', 'ufollow'
+    '/ufollow/(\d*)', 'ufollow',
+    '/images/(.*)', 'images'
 )
 
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
@@ -201,6 +202,22 @@ class ufollow:
         vars = {'frid':session.user['us_id'], 'feid':uid}
         db.query(query, vars)
         raise web.seeother('/profile/'+uid)
+
+class images:
+    def GET(self, img):
+        ext = img.split(".")[-1]
+        cType = {
+            "png":"images/png",
+            "jpg":"images/jpeg",
+            "jpeg":"images/jpeg",
+            "gif":"images/gif",
+            "ico":"images/x-icon"
+        }
+        if img in os.listdir('images'):
+            web.header("Content-Type","attachment; Content-Type", cType[ext])
+            return open('images/%s'%img, "rb").read()
+        else:
+            raise web.notfound()
 
 class logout:
     def POST(self):
