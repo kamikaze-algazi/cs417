@@ -7,7 +7,7 @@ if socket.gethostname()=='MBP.local':
     path = '/Users/alyx/.secrets'
 elif socket.gethostname()=='phoenix.goucher.edu':
     path = '/home/sqlfreakz/.secrets'
-else:
+elif socket.gethostname()=='arch4alyx':
     path = '/home/alyx/.secrets'
 import sys; sys.path.insert(0, path)
 import psqlauth
@@ -66,7 +66,7 @@ if web.config.get('_session') is None:
         seshdir = '/Users/alyx/public_html/wsgi/sessions'
     elif socket.gethostname()=='phoenix.goucher.edu':
         seshdir = '/var/lib/php/session'
-    else:
+    elif socket.gethostname()=='arch4alyx':
         seshdir = '/home/alyx/public_html/wsgi/sessions'
 
     session = web.session.Session(app,
