@@ -2,8 +2,8 @@ import os, web
 from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
 
-import socket
-if socket.gethostname()=='MBP.local':
+import socket, getpass
+if getpass.getuser()=='alyx':
     path = '/Users/alyx/.secrets'
 elif socket.gethostname()=='phoenix.goucher.edu':
     path = '/home/sqlfreakz/.secrets'
@@ -65,7 +65,7 @@ app = web.application(urls, globals())
 # the inner if determines the path of the sessions directory,
 # depending on the server (/var/lib for phoenix)
 if web.config.get('_session') is None:
-    if socket.gethostname()=='MBP.local':
+    if getpass.getuser()=='alyx':
         seshdir = '/Users/alyx/public_html/wsgi/sessions'
     elif socket.gethostname()=='phoenix.goucher.edu':
         seshdir = '/var/lib/php/session'
