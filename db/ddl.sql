@@ -53,7 +53,7 @@ CREATE TABLE "POST" (
     pt_txt		VARCHAR(1000) NOT NULL,
     pt_pic		INTEGER,
     PRIMARY KEY (us_id, pt_time),
-    FOREIGN KEY (us_id) REFERENCES "USER"
+    FOREIGN KEY (us_id) REFERENCES "USER"(us_id)
         ON DELETE CASCADE,
     FOREIGN KEY (pt_pic) REFERENCES "PICS"(pic_id)
         ON DELETE CASCADE

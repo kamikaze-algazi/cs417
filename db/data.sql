@@ -5,11 +5,15 @@ VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g
 
 INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
 VALUES ('Christmas Dinner', 'Eat!', '2019-12-25 19:00:00', '2003 Chapel Ct.', 'Frederick', 'Maryland', '21702');
+INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
+VALUES ('sadboi club', ':(', '2020-04-20 16:20:00', '8417 Loch Raven Blvd', 'Towson', 'Maryland', '21218');
 
 INSERT INTO "RSVP"(us_id, ev_id)
 VALUES ('1', '1');
 INSERT INTO "RSVP"(us_id, ev_id)
 VALUES ('2', '1');
+INSERT INTO "RSVP"(us_id, ev_id)
+VALUES ('1', '2');
 
 INSERT INTO "POST"(us_id, pt_txt)
 VALUES ('1', 'Hello, World!');

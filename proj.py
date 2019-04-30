@@ -48,8 +48,10 @@ urls = (
     '/', 'index',
     '/login', 'login',
     '/home', 'home',
-    '/profile', 'profile',
-    '/logout', 'logout'
+    '/profile/(\d*)', 'profile',
+    '/logout', 'logout',
+    '/event/(\d*)', 'event',
+    '/rsvp/(\d*)', 'rsvp'
 )
 
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
@@ -71,7 +73,7 @@ if web.config.get('_session') is None:
 
     session = web.session.Session(app,
               web.session.DiskStore(seshdir),
-              initializer={'loggedIn': False, 'email' : ''})
+              initializer={'loggedIn': False, 'email' : '', 'user' : None})
     web.config._session = session
 else:
     session = web.config._session
@@ -102,11 +104,7 @@ class login:
             if pbkdf2_sha256.verify(passwd, result['passwd']):
                 session.loggedIn = True
                 session.email = email
-                query = ('SELECT * FROM "POST" '
-                         'WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em)) '
-                         'ORDER BY pt_time asc;')
-                posts = list(db.query(query, vars))
-                return render_template('home.html', email=session.email, posts=posts)
+                session.user = result
         except:
             pass
         raise web.seeother('/')
@@ -116,19 +114,47 @@ class home:
         if session.loggedIn:
             query = ('SELECT * FROM "POST" '
                      'WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) '
+                     'OR us_id IN (SELECT flwe_id FROM "FOLLOW" WHERE flwr_id = '
+                     '(SELECT us_id FROM "USER" WHERE email=$em))'
                      'ORDER BY pt_time asc;')
             vars = {'em':session.email}
             posts = list(db.query(query, vars))
-            return render_template('home.html', email=session.email, posts=posts)
+            return render_template('home.html', posts=posts, user=session.user)
         else:
             raise web.seeother('/login')
 
 class profile:
-    def GET(self):
+    def GET(self, uid):
         if session.loggedIn:
-            return render_template('profile.html', email=session.email)
+            query = 'SELECT * FROM "USER" WHERE us_id=$uid;'
+            vars = {'uid':uid}
+            prof = db.query(query, vars)[0]
+            query = ('SELECT * FROM "EVENT" '
+                     'WHERE ev_id IN (SELECT ev_id FROM "RSVP" WHERE us_id=$uid) '
+                     'ORDER BY ev_time asc;')
+            events = list(db.query(query, vars))
+            return render_template('profile.html', prof=prof, events=events)
         else:
             raise web.seeother('/login')
+
+class event:
+    def GET(self, eid):
+        if session.loggedIn:
+            query = ('SELECT * FROM "USER" '
+                     'WHERE us_id IN (SELECT us_id FROM "RSVP" WHERE ev_id=$eid) '
+                     'ORDER BY first_name asc;')
+            vars = {'eid':eid}
+            attending = list(db.query(query, vars))
+            return render_template('event.html', attending=attending, eid=eid)
+        else:
+            raise web.seeother('/login')
+
+class rsvp:
+    def POST(self, eid):
+        query = ('INSERT INTO "RSVP"(us_id, ev_id)'
+                     'VALUES ($uid, $eid);')
+        vars = {'uid':session.user['us_id'], 'eid':eid}
+        db.query(query, vars)
 
 class logout:
     def POST(self):

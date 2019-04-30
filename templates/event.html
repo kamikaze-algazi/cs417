@@ -5,6 +5,14 @@
     <link rel="shortcut icon" href="">
   </head>
   <body>
+    <ul>
+      {% for attendee in attending %}
+        <li><a href='/profile/{{attendee.us_id}}'>{{attendee.first_name}} {{attendee.last_name}}</a>
+      {% endfor %}
+    </ul>
+    <form action="/rsvp/{{eid}}" method="POST">
+      <input type="submit" value="Going">
+    </form>
   </body>
 </html>
 

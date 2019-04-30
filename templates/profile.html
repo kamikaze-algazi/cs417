@@ -5,6 +5,14 @@
     <link rel="shortcut icon" href="">
   </head>
   <body>
+    <h1>{{prof.first_name}}</h1>
+    <p>This persons date of birth is {{prof.dob}}
+    <p>This person is {{prof.age}} years old
+    <ul>
+      {% for event in events %}
+        <li><a href='/event/{{event.ev_id}}'>{{event.ev_name}}</a>
+      {% endfor %}
+    </ul>
   </body>
 </html>
 
