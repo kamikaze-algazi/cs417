@@ -3,15 +3,15 @@ from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
 
 import socket, getpass
-if getpass.getuser()=='alyx':
+if socket.gethostname()=='arch4alyx' or socket.gethostname()=='Vera':
+    path = '/home/alyx/.secrets'
+    homedir = '/home/alyx/'
+elif getpass.getuser()=='alyx':
     path = '/Users/alyx/.secrets'
     homedir = '/Users/alyx/'
 elif socket.gethostname()=='phoenix.goucher.edu':
     path = '/home/sqlfreakz/.secrets'
     homedir = '/home/sqlfreakz/'
-elif socket.gethostname()=='arch4alyx':
-    path = '/home/alyx/.secrets'
-    homedir = '/home/alyx/'
 import sys; sys.path.insert(0, path)
 import psqlauth
 
@@ -71,10 +71,10 @@ app = web.application(urls, globals())
 # the inner if determines the path of the sessions directory,
 # depending on the server (/var/lib for phoenix)
 if web.config.get('_session') is None:
-    if getpass.getuser()=='alyx':
-        seshdir = homedir+'public_html/wsgi/sessions'
-    elif socket.gethostname()=='phoenix.goucher.edu':
+    if socket.gethostname()=='phoenix.goucher.edu':
         seshdir = '/var/lib/php/session'
+    else:
+        seshdir = homedir+'public_html/wsgi/sessions'
 
     session = web.session.Session(app,
               web.session.DiskStore(seshdir),
