@@ -1,4 +1,5 @@
 #!/bin/bash
+export PGPASSWORD=algazi_jones
 psql -U $USER < ~/public_html/wsgi/db/reset.sql
 psql -U $USER < ~/public_html/wsgi/db/ddl.sql
 psql -U $USER < ~/public_html/wsgi/db/data.sql
