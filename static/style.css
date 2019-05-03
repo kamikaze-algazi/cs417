@@ -1,0 +1,16 @@
+@import url(//db.onlinewebfonts.com/c/5548f1e5d18d8712e4e4bf9cda006aa4?family=Univers+Next+Typewriter);
+
+* {
+  text-align: center;
+}
+
+body {
+  background-color: rgb(39,40,34);
+}
+
+h1 {
+  --redish: rgb(255,64,121);
+  --greenish: rgb(196,225,83);
+  font: 20pt Univers Next Typewriter, monospace;
+  color: white;
+}
