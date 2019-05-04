@@ -2,14 +2,14 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style.css">
-    <title>{{ user.first_name }} {{ user.last_name}}</title>
+    <title>Home Page</title>
     <link rel="shortcut icon" href="">
   </head>
   <body>
-    <h1>Home</h1><br>
+    <h1>&lt;<span style="color:var(--redish);">Home</span> <span style="color:var(--greenish);">Page</span>/&gt;</h1>
     <ul>
       {% for post in posts %}
-        <li><b><a href='profile/{{post.us_id}}'>{{post.pt_fullname}}</a> posted:</b>{{ post.pt_txt }} (posted at {{ post.pt_time }})
+        <li><b><a href="profile/{{post.us_id}}">{{post.pt_fullname}}</a> posted:</b>{{ post.pt_txt }} (posted at {{ post.pt_time }})
       {% endfor %}
     </ul>
     <form action="logout" method="POST">

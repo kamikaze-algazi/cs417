@@ -1,10 +1,14 @@
 INSERT INTO "PICS"(pic_name)
 VALUES ('helloworld.jpeg');
+INSERT INTO "PICS"(pic_name)
+VALUES ('SpongeBob.png');
+INSERT INTO "PICS"(pic_name)
+VALUES ('Patrick.png');
 
-INSERT INTO "USER"(passwd, first_name, last_name, email, dob)
-VALUES ('$pbkdf2-sha256$29000$.t9bK8W4FwIAIASA0JpT6g$5xB8Ek9lojNNHG9iiUGjsIBd9Kmz4ZLSHhTjDSVc2hM', 'Alyx', 'Algazi', 'kamikaze.algazi@gmail.com', '11-25-1996');
-INSERT INTO "USER"(passwd, first_name, last_name, email, dob)
-VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'Sunny', 'Jones', 'najon002@mail.goucher.edu', '03-22-1997');
+INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
+VALUES ('$pbkdf2-sha256$29000$.t9bK8W4FwIAIASA0JpT6g$5xB8Ek9lojNNHG9iiUGjsIBd9Kmz4ZLSHhTjDSVc2hM', 'Alyx', 'Algazi', 'kamikaze.algazi@gmail.com', '11-25-1996', 2);
+INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
+VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'Sunny', 'Jones', 'najon002@mail.goucher.edu', '03-22-1997', 3);
 
 INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
 VALUES ('Christmas Dinner', 'Eat!', '2019-12-25 19:00:00', '2003 Chapel Ct.', 'Frederick', 'Maryland', '21702');

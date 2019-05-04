@@ -124,7 +124,12 @@ class home:
                      'ORDER BY pt_time asc;')
             vars = {'em':session.email}
             posts = list(db.query(query, vars))
-            return render_template('home.html', posts=posts, user=session.user)
+            query = ('SELECT us_id, pic_name FROM "PICS"
+                      INNER JOIN ("POST" NATURAL JOIN "USER")
+                      ON prof_pic = pic_id;')
+            pics = list(db.query(vars))
+            SELECT us_id, pic_name FROM (SELECT us_id, pic_name FROM "PICS" INNER JOIN ("POST" NATURAL JOIN "USER") ON prof_pic = pic_id) AS "ALL" INNER JOIN (SELECT flwe_id FROM "FOLLOW" WHERE flwr_id = 2) AS "FLWES" ON "ALL".us_id = "FLWES".flwe_id;
+            return render_template('home.html', posts=posts,  user=session.user)
         else:
             raise web.seeother('/login')
 
