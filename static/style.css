@@ -2,6 +2,7 @@
 
 * {
   text-align: center;
+  color: white;
 }
 
 body {
@@ -13,4 +14,8 @@ h1 {
   --greenish: rgb(196,225,83);
   font: 20pt Univers Next Typewriter, monospace;
   color: white;
+}
+
+p {
+  font: 16pt Univers Next Typewriter, monospace;
 }

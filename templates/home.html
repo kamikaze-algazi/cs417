@@ -7,11 +7,13 @@
   </head>
   <body>
     <h1>&lt;<span style="color:var(--redish);">Home</span> <span style="color:var(--greenish);">Page</span>/&gt;</h1>
-    <ul>
+    <table style="width:100%" align="left">
       {% for post in posts %}
-        <li><b><a href="profile/{{post.us_id}}">{{post.pt_fullname}}</a> posted:</b>{{ post.pt_txt }} (posted at {{ post.pt_time }})
+        <tr>
+          <p><img src="images/{{pics.get(post.us_id)}}" alt="{{post.fullname}}'s Profile Picture" width="50" align="middle"><b><a href="profile/{{post.us_id}}">{{post.pt_fullname}}</a> posted:</b>{{ post.pt_txt }} (posted at {{ post.pt_time }})</p>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
     <form action="logout" method="POST">
       <input type="submit" value="Logout">
     </form>
