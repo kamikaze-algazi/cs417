@@ -1,21 +1,40 @@
 @import url(//db.onlinewebfonts.com/c/5548f1e5d18d8712e4e4bf9cda006aa4?family=Univers+Next+Typewriter);
 
+:root {
+  --redish: rgb(255,64,121);
+  --greenish: rgb(196,225,83);
+  --grayish: rgb(39,40,34);
+}
+
 * {
   text-align: center;
   color: white;
 }
 
 body {
-  background-color: rgb(39,40,34);
+  background-color: var(--grayish);
 }
 
 h1 {
-  --redish: rgb(255,64,121);
-  --greenish: rgb(196,225,83);
   font: 20pt Univers Next Typewriter, monospace;
   color: white;
 }
 
 p {
   font: 16pt Univers Next Typewriter, monospace;
+}
+
+input[type=submit], button {
+	padding: 5px 10px; 
+  background-color: var(--grayish); 
+  color: var(--greenish);
+  border: none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  font: 12pt Univers Next Typewriter, monospace;
+}
+
+input[type=text], input[type=password] {
+  color: black;
 }
