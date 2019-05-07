@@ -7,17 +7,6 @@
   </head>
   <body>
     <h1>&lt;<span style="color:var(--redish);">{{prof.first_name}}</span> <span style="color:var(--greenish);">{{prof.last_name}}</span>/&gt;</h1>
-    <p>Birthday: {{prof.dob}}</p>
-    <ul>
-      {% for event in events %}
-        <li><a href='/event/{{event.ev_id}}'>{{event.ev_name}}</a>
-      {% endfor %}
-    </ul>
-    <ul>
-      {% for user in following %}
-        <li><a href='/profile/{{user.us_id}}'>{{user.first_name}} {{user.last_name}}</a>
-      {% endfor %}
-    </ul>
     {% if not isFollowed and not isMe %}
       <form action="/follow/{{uid}}" method="POST">
         <input type="submit" value="Follow">
@@ -27,6 +16,28 @@
         <input type="submit" value="Unfollow">
       </form>
     {% endif %}
+    <table>
+      <tr>
+        <td>
+          <table>
+            {% for event in events %}
+              <tr>
+                <p><a href='/event/{{event.ev_id}}'>{{event.ev_name}}</a></p>
+              </tr>
+            {% endfor %}
+          </table>
+        </td>
+        <td>
+          <table>
+            {% for user in following %}
+              <tr>
+                <p><a href='/profile/{{user.us_id}}'>{{user.first_name}} {{user.last_name}}</a></p>
+              </tr>
+            {% endfor %}
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
 

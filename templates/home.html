@@ -11,7 +11,7 @@
       <input type="submit" value="Logout">
     </form>
     <button onclick="window.location.href = 'profile/{{user.us_id}}';">My Profile</button>
-    <table style="width:100%" align="left">
+    <table>
       {% for post in posts %}
         <tr>
           <p><img src="images/{{pics.get(post.us_id)}}" alt="{{post.fullname}}'s Profile Picture" width="50" align="middle"><b><a href="profile/{{post.us_id}}">{{post.pt_fullname}}</a> posted: </b>{{ post.pt_txt }} (posted at {{ post.pt_time }})</p>
