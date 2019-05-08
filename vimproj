@@ -1,0 +1,1 @@
+vim -p proj.py templates/login.html templates/newuser.html templates/home.html templates/profile.html templates/event.html static/style.css db/ddl.sql db/data.sql

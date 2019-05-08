@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Create New User</title>
+    <link rel="shortcut icon" href="">
+  </head>
+  <body>
+    <h1>&lt;<span style="color:var(--redish);">New</span> <span style="color:var(--greenish);">User</span>/&gt;</h1>
+    <form action="newuser" method="POST">
+      <input type="text" name="fname" placeholder="First Name" autofocus>
+      <input type="text" name="lname" placeholder="Last Name">
+      <input type="date" name="dob">
+      <input type="text" name="email" placeholder="email" autofocus>
+      <input type="password" name="passwd" placeholder="password">
+      <input type="submit" value="Create New User">
+    </form>
+  </body>
+</html>
+
