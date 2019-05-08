@@ -58,7 +58,8 @@ urls = (
     '/ursvp/(\d*)', 'ursvp',
     '/follow/(\d*)', 'follow',
     '/ufollow/(\d*)', 'ufollow',
-    '/images/(.*)', 'images'
+    '/images/(.*)', 'images',
+    '/newuser', 'newuser'
 )
 
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
@@ -113,6 +114,26 @@ class login:
         except:
             pass
         raise web.seeother('/')
+
+class newuser:
+    def GET(self):
+        if session.loggedIn:
+            raise web.seeother('/home')
+        else:
+            return render_template('newuser.html')
+
+    def POST(self):
+        fname, lname, email, passwd, dob = web.input().fname, web.input().lname, web.input().email, web.input().passwd, web.input().dob
+        try:
+            query = ('INSERT INTO "USER" '
+                     '(first_name, last_name, email, passwd, dob) '
+                     'VALUES ($fn, $ln, $em, $pw, $bd);')
+            vars = {'fn':fname, 'ln':lname, 'em':email,
+                    'pw':pbkdf2_sha256.hash(passwd), 'bd':dob}
+            db.query(query, vars)
+        except:
+            pass
+        raise web.seeother('/newuser')
 
 class home:
     def GET(self):
