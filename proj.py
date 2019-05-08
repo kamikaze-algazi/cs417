@@ -127,10 +127,17 @@ class newuser:
         try:
             query = ('INSERT INTO "USER" '
                      '(first_name, last_name, email, passwd, dob) '
-                     'VALUES ($fn, $ln, $em, $pw, $bd);')
+                     'VALUES ($fn, $ln, $em, $pw, $bd) '
+                     'RETURNING us_id;')
             vars = {'fn':fname, 'ln':lname, 'em':email,
                     'pw':pbkdf2_sha256.hash(passwd), 'bd':dob}
             db.query(query, vars)
+            query = 'SELECT * FROM "USER" WHERE email=$email;'
+            vars = {'email':email}
+            user = db.query(query, vars)[0]
+            session.loggedIn = True
+            session.email = email
+            session.user = user
         except:
             pass
         raise web.seeother('/newuser')
