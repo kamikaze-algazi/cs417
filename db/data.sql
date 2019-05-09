@@ -31,3 +31,39 @@ INSERT INTO "FOLLOW"(flwr_id, flwe_id)
 VALUES ('1', '2');
 INSERT INTO "FOLLOW"(flwr_id, flwe_id)
 VALUES ('2', '1');
+
+
+
+
+
+
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', '30 min', 'now'::timestamp - '30 minutes'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', 'hour', 'now'::timestamp - '1 hour'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', 'six hr', 'now'::timestamp - '6 hours'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', 'twelve hr', 'now'::timestamp - '12 hours'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', '1 day', 'now'::timestamp - '1 day'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', '3 days', 'now'::timestamp - '3 days'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', '7 days', 'now'::timestamp - '7 days'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', '8 days', 'now'::timestamp - '8 days'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', 'month', 'now'::timestamp - '1 month'::interval);
+
+INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
+VALUES ('1', 'ya boi', 'year', 'now'::timestamp - '1 year'::interval);

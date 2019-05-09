@@ -1,7 +1,7 @@
 import os, web
 from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import socket, getpass
 if socket.gethostname()=='arch4alyx' or socket.gethostname()=='Vera':
@@ -67,6 +67,30 @@ db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
                   db=psqlauth.db)
 
 app = web.application(urls, globals())
+
+weekdays = {
+    0: "Monday",
+    1: "Tuesday",
+    2: "Wednesday",
+    3: "Thursday",
+    4: "Friday",
+    5: "Saturday",
+    6: "Sunday"
+}
+months = {
+    1:  "Jan",
+    2:  "Feb",
+    3:  "Mar",
+    4:  "Apr",
+    5:  "May",
+    6:  "Jun",
+    7:  "Jul",
+    8:  "Aug",
+    9:  "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
+}
 
 # the outer if else block is a fix for sessions not working in debug mode
 # source: http://webpy.org/cookbook/session_with_reloader
@@ -170,7 +194,8 @@ class home:
             pics = dict()
             for pic in picQ:
                 pics[pic['us_id']] = pic['pic_name']
-            return render_template('home.html', posts=posts, pics=pics, user=session.user)
+            return render_template('home.html', posts=posts, pics=pics, user=session.user,
+                    weekdays=weekdays, today=datetime.today(), months=months, yest=timedelta(1))
         else:
             raise web.seeother('/login')
 

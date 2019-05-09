@@ -21,6 +21,7 @@ h1 {
 
 p {
   font: 16pt Univers Next Typewriter, monospace;
+  color: white;
 }
 
 input[type=submit], button {
