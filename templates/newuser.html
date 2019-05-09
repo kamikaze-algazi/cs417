@@ -7,10 +7,10 @@
   </head>
   <body>
     <h1>&lt;<span style="color:var(--redish);">New</span> <span style="color:var(--greenish);">User</span>/&gt;</h1>
-    <form action="newuser" method="POST">
+    <form action="newuser" method="POST" autocomplete="off">
       <input type="text" name="fname" placeholder="First Name" autofocus>
       <input type="text" name="lname" placeholder="Last Name">
-      <input type="date" name="dob">
+      <input type="text" name="dob" placeholder="Date of Birth" onfocus="(this.type='date')" onblur="(this.type='text')">
       <input type="text" name="email" placeholder="email" autofocus>
       <input type="password" name="passwd" placeholder="password">
       <input type="submit" value="Create New User">

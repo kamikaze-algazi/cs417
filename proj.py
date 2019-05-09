@@ -1,6 +1,7 @@
 import os, web
 from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
+from datetime import date, datetime
 
 import socket, getpass
 if socket.gethostname()=='arch4alyx' or socket.gethostname()=='Vera':
@@ -125,12 +126,15 @@ class newuser:
     def POST(self):
         fname, lname, email, passwd, dob = web.input().fname, web.input().lname, web.input().email, web.input().passwd, web.input().dob
         try:
+            born = datetime.strptime(dob, '%Y-%m-%d')
+            today = date.today()
+            age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
             query = ('INSERT INTO "USER" '
-                     '(first_name, last_name, email, passwd, dob) '
-                     'VALUES ($fn, $ln, $em, $pw, $bd) '
+                     '(first_name, last_name, email, passwd, dob, age) '
+                     'VALUES ($fn, $ln, $em, $pw, $bd, $ag) '
                      'RETURNING us_id;')
             vars = {'fn':fname, 'ln':lname, 'em':email,
-                    'pw':pbkdf2_sha256.hash(passwd), 'bd':dob}
+                    'pw':pbkdf2_sha256.hash(passwd), 'bd':dob, 'ag':age}
             db.query(query, vars)
             query = 'SELECT * FROM "USER" WHERE email=$email;'
             vars = {'email':email}
