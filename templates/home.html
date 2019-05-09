@@ -5,7 +5,7 @@
     <title>Home Page</title>
     <link rel="shortcut icon" href="">
   </head>
-  <body>
+  <body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF">
     <h1>&lt;<span style="color:var(--redish);">Home</span> <span style="color:var(--greenish);">Page</span>/&gt;</h1>
     <form action="logout" method="POST">
       <input type="submit" value="Logout">
@@ -14,55 +14,67 @@
     <table>
       {% for post in posts %}
         <tr>
-          <p>
-            <img src="images/{{pics.get(post.us_id)}}" alt="{{post.fullname}}'s Profile Picture" width="50" align="middle">
-            <b><a href="profile/{{post.us_id}}">{{post.pt_fullname}}</a></b>: {{post.pt_txt}}<br>
-            <span style="font-size:14px;color:#777777;">
-              {% set datetime = post.pt_time %}
-              {% set istoday = today.day == datetime.day and today.month == datetime.month and today.year == datetime.year %} 
-              {% if istoday %}
-              {% elif (today-yest).day == datetime.day %}
-                Yesterday
-              {% elif (today-datetime).days <= 7 %}
-                {{weekdays[datetime.weekday()]}}
-              {% elif today.year != datetime.year %}
-                {{months[datetime.month]}} {{datetime.day}}, {{datetime.year}}
-              {% else %}
-                {{months[datetime.month]}} {{datetime.day}}
-              {% endif %}
-              {% if (today-datetime).seconds < 60 and istoday %}
-                less than a minute ago
-              {% elif today.day == datetime.day and istoday %}
-                {% if (today-datetime).seconds//3600 >= 1 %}
-                  {{(today-datetime).seconds//3600}}
-                  {% if (today-datetime).seconds//3600 == 1 %}
-                    hr
+          <td width="20%">
+            <p>
+              <img src="images/{{pics.get(post.us_id)}}" alt="{{post.fullname}}'s Profile Picture" width="50" align="middle">
+              <b><a href="profile/{{post.us_id}}">{{post.pt_fullname}}</a></b>
+            </p>
+          </td>
+          <td>
+            <p>
+              {{post.pt_txt}}
+            </p>
+          </td>
+          <td width="10%">
+            <p>
+              <span style="font-size:14px;color:#777777;">
+                {% set datetime = post.pt_time %}
+                {% set istoday = today.day == datetime.day and today.month == datetime.month and today.year == datetime.year %}
+                Posted
+                {% if istoday %}
+                {% elif (today-yest).day == datetime.day %}
+                  Yesterday
+                {% elif (today-datetime).days <= 7 %}
+                  {{weekdays[datetime.weekday()]}}
+                {% elif today.year != datetime.year %}
+                  {{months[datetime.month]}} {{datetime.day}}, {{datetime.year}}
+                {% else %}
+                  {{months[datetime.month]}} {{datetime.day}}
+                {% endif %}
+                {% if (today-datetime).seconds < 60 and istoday %}
+                  less than a minute ago
+                {% elif today.day == datetime.day and istoday %}
+                  {% if (today-datetime).seconds//3600 >= 1 %}
+                    {{(today-datetime).seconds//3600}}
+                    {% if (today-datetime).seconds//3600 == 1 %}
+                      hr
+                    {% else %}
+                      hrs
+                    {% endif %}
+                    ago
                   {% else %}
-                    hrs
+                    {{(today-datetime).seconds//60}}
+                    {% if (today-datetime).seconds//60 == 1 %}
+                      min
+                    {% else %}
+                      mins
+                    {% endif%}
+                    ago
                   {% endif %}
-                  ago
                 {% else %}
-                  {{(today-datetime).seconds//60}}
-                  {% if (today-datetime).seconds//60 == 1 %}
-                    min
+                  {% if datetime.hour/12 == 0 %}
+                    at
+                    {{datetime.hour % 12}}:{{datetime.minute}}
+                    am
                   {% else %}
-                    mins
-                  {% endif%}
-                  ago
+                    at
+                    {{datetime.hour % 12}}:{{datetime.minute}}
+                    pm
+                  {% endif %}
                 {% endif %}
-              {% else %}
-                {% if datetime.hour/12 == 0 %}
-                  at
-                  {{datetime.hour % 12}}:{{datetime.minute}}
-                  am
-                {% else %}
-                  at
-                  {{datetime.hour % 12}}:{{datetime.minute}}
-                  pm
-                {% endif %}
-              {% endif %}
-            </span>
-          </p>
+              </span>
+            </p>
+          </td>
         </tr>
       {% endfor %}
     </table>
