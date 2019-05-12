@@ -242,8 +242,12 @@ class profile:
                      'ELSE CAST(0 AS BIT) END;')
             isFollowed = bool(int(db.query(query, vars)[0]['case']))
             isMe = (int(uid) == session.user['us_id'])
-            return render_template('profile.html', prof=prof, events=events,
-                                uid=uid, following=following, isFollowed=isFollowed, isMe=isMe)
+            query = ('SELECT pic_name FROM "PICS" '
+                     'WHERE pic_id=$pid;')
+            vars = {'pid':prof['prof_pic']}
+            pic = db.query(query, vars)[0]['pic_name']
+            return render_template('profile.html', prof=prof, events=events, pic=pic,
+                        uid=uid, following=following, isFollowed=isFollowed, isMe=isMe)
         else:
             raise web.seeother('/login')
 

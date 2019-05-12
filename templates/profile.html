@@ -5,8 +5,9 @@
     <title>{{prof.first_name}} {{prof.last_name}}'s Profile</title>
     <link rel="shortcut icon" href="">
   </head>
-  <body>
+  <body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF">
     <h1>&lt;<span style="color:var(--redish);">{{prof.first_name}}</span> <span style="color:var(--greenish);">{{prof.last_name}}</span>/&gt;</h1>
+    <img src="/images/{{pic}}" width="200" align="middle">
     {% if not isFollowed and not isMe %}
       <form action="/follow/{{uid}}" method="POST">
         <input type="submit" value="Follow">
@@ -16,22 +17,26 @@
         <input type="submit" value="Unfollow">
       </form>
     {% endif %}
-    <table>
+    <table align="center">
+      <tr>
+        <td>
+          <table>
+            {% for user in following %}
+              <tr>
+                <p><a href='/profile/{{user.us_id}}'>{{user.first_name}} {{user.last_name}}</a></p>
+              </tr>
+            {% endfor %}
+          </table>
+        </td>
+      </tr>
+    </table>
+    <table align="center">
       <tr>
         <td>
           <table>
             {% for event in events %}
               <tr>
                 <p><a href='/event/{{event.ev_id}}'>{{event.ev_name}}</a></p>
-              </tr>
-            {% endfor %}
-          </table>
-        </td>
-        <td>
-          <table>
-            {% for user in following %}
-              <tr>
-                <p><a href='/profile/{{user.us_id}}'>{{user.first_name}} {{user.last_name}}</a></p>
               </tr>
             {% endfor %}
           </table>
