@@ -1,3 +1,4 @@
+
 import os, web
 from jinja2 import Environment, FileSystemLoader
 from passlib.hash import pbkdf2_sha256
@@ -17,6 +18,7 @@ import sys; sys.path.insert(0, path)
 import psqlauth
 
 #web.config.debug = False
+
 
 ###################### BEGIN HELPER METHODS ######################
 
@@ -47,6 +49,7 @@ def render_template(template_name, **context):
     return jinja_env.get_template(template_name).render(context)
 
 ##################### END HELPER METHODS #####################
+
 
 urls = (
     '/', 'index',
@@ -92,6 +95,7 @@ months = {
     12: "Dec",
 }
 
+
 # the outer if else block is a fix for sessions not working in debug mode
 # source: http://webpy.org/cookbook/session_with_reloader
 # the inner if determines the path of the sessions directory,
@@ -119,6 +123,7 @@ class index:
         else:
             raise web.seeother('/login')
 
+
 class login:
     def GET(self):
         if session.loggedIn:
@@ -140,6 +145,7 @@ class login:
             pass
         raise web.seeother('/')
 
+
 class newuser:
     def GET(self):
         if session.loggedIn:
@@ -148,7 +154,8 @@ class newuser:
             return render_template('newuser.html')
 
     def POST(self):
-        fname, lname, email, passwd, dob = web.input().fname, web.input().lname, web.input().email, web.input().passwd, web.input().dob
+        fname, lname, email, passwd, dob = web.input().fname, web.input().lname, \
+                web.input().email, web.input().passwd, web.input().dob
         try:
             born = datetime.strptime(dob, '%Y-%m-%d')
             today = date.today()
@@ -170,6 +177,7 @@ class newuser:
             pass
         raise web.seeother('/newuser')
 
+
 class home:
     def GET(self):
         if session.loggedIn:
@@ -177,7 +185,7 @@ class home:
                      'WHERE us_id IN (SELECT us_id FROM "USER" WHERE email=$em) '
                      'OR us_id IN (SELECT flwe_id FROM "FOLLOW" WHERE flwr_id = '
                      '(SELECT us_id FROM "USER" WHERE email=$em))'
-                     'ORDER BY pt_time asc;')
+                     'ORDER BY pt_time desc;')
             vars = {'em':session.email}
             posts = list(db.query(query, vars))
             query = ('SELECT us_id, pic_name '
@@ -198,6 +206,20 @@ class home:
                     weekdays=weekdays, today=datetime.today(), months=months, yest=timedelta(1))
         else:
             raise web.seeother('/login')
+
+    def POST(self):
+        post_text = web.input().ptxt
+        try:
+            flnm = session.user['first_name'] + ' ' + session.user['last_name']
+            query = ('INSERT INTO "POST" '
+                     '(us_id, pt_fullname, pt_txt) '
+                     'VALUES ($uid, $name, $txt);')
+            vars = {'uid':session.user['us_id'], 'name':flnm, 'txt':post_text}
+            db.query(query, vars)
+        except:
+            pass
+        raise web.seeother('/home')
+
 
 class profile:
     def GET(self, uid):
@@ -225,6 +247,7 @@ class profile:
         else:
             raise web.seeother('/login')
 
+
 class event:
     def GET(self, eid):
         if session.loggedIn:
@@ -243,6 +266,7 @@ class event:
         else:
             raise web.seeother('/login')
 
+
 class rsvp:
     def POST(self, eid):
         query = ('INSERT INTO "RSVP"(us_id, ev_id) '
@@ -250,6 +274,7 @@ class rsvp:
         vars = {'uid':session.user['us_id'], 'eid':eid}
         db.query(query, vars)
         raise web.seeother('/event/'+eid)
+
 
 class ursvp:
     def POST(self, eid):
@@ -259,6 +284,7 @@ class ursvp:
         db.query(query, vars)
         raise web.seeother('/event/'+eid)
 
+
 class follow:
     def POST(self, uid):
         query = ('INSERT INTO "FOLLOW"(flwr_id, flwe_id)'
@@ -267,6 +293,7 @@ class follow:
         db.query(query, vars)
         raise web.seeother('/profile/'+uid)
 
+
 class ufollow:
     def POST(self, uid):
         query = ('DELETE FROM "FOLLOW" '
@@ -274,6 +301,7 @@ class ufollow:
         vars = {'frid':session.user['us_id'], 'feid':uid}
         db.query(query, vars)
         raise web.seeother('/profile/'+uid)
+
 
 class images:
     def GET(self, img):
@@ -291,12 +319,14 @@ class images:
         else:
             raise web.notfound()
 
+
 class logout:
     def POST(self):
         session.loggedIn=False
         session.email=None
         session.kill()
         return render_template('login.html')
+
 
 if __name__ == "__main__":
     app.run()

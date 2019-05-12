@@ -11,6 +11,10 @@
       <input type="submit" value="Logout">
     </form>
     <button onclick="window.location.href = 'profile/{{user.us_id}}';">My Profile</button>
+    <form action="home" method="POST">
+      <input type="text" name="ptxt" placeholder="Post Something..." autofocus>
+      <input type="submit" value="Post">
+    </form>
     <table>
       {% for post in posts %}
         <tr>
