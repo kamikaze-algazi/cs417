@@ -63,7 +63,9 @@ urls = (
     '/follow/(\d*)', 'follow',
     '/ufollow/(\d*)', 'ufollow',
     '/images/(.*)', 'images',
-    '/newuser', 'newuser'
+    '/newuser', 'newuser',
+    '/search', 'search',
+    '/newevent', 'newevent'
 )
 
 db = web.database(dbn='postgres', user=psqlauth.user, pw=psqlauth.pw,
@@ -221,6 +223,44 @@ class home:
         raise web.seeother('/home')
 
 
+class newevent:
+    def GET(self):
+        if session.loggedIn:
+            return render_template('newevent.html')
+        else:
+            raise web.seeother('/')
+
+    def POST(self):
+        name, desc, date, time, street, city, state, zip = web.input().name, web.input().desc, web.input().date, \
+                web.input().time, web.input().street, web.input().city, web.input().state, web.input().zip
+        try:
+            query = ('INSERT INTO "EVENT" '
+                     '(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip) '
+                     'VALUES ($nm, $ds, $tm, $sr, $ct, $st, $zp) RETURNING ev_id;')
+            vars = {'nm':name, 'ds':desc, 'tm':'2020-04-20 16:20:00', 'sr':street, 'ct':city, 'st':state, 'zp':zip}
+            eid = str(db.query(query, vars)[0]['ev_id'])
+        except:
+            pass
+        raise web.seeother('/event/'+eid)
+
+
+class search:
+    def GET(self):
+        if session.loggedIn:
+            i = web.input(srch=None)
+            query = ('SELECT us_id, first_name, last_name from "USER" '
+                     'WHERE UPPER(first_name) LIKE UPPER($str) OR '
+                     'UPPER(last_name) LIKE UPPER($str);')
+            vars = {'str':'%'+web.input().srch+'%'}
+            users = db.query(query, vars)
+            query = ('SELECT ev_id, ev_name from "EVENT" '
+                     'WHERE UPPER(ev_name) LIKE UPPER($str);')
+            events = db.query(query, vars)
+            return render_template('search.html', users=users, events=events)
+        else:
+            raise web.seeother('/login')
+
+
 class profile:
     def GET(self, uid):
         if session.loggedIn:
@@ -266,7 +306,9 @@ class event:
                      'WHERE us_id IN (SELECT us_id FROM "RSVP" WHERE ev_id=$eid) '
                      'ORDER BY first_name asc;')
             attending = list(db.query(query, vars))
-            return render_template('event.html', attending=attending, eid=eid, going=going)
+            query = 'SELECT * FROM "EVENT" WHERE ev_id=$eid'
+            event = db.query(query, vars)[0]
+            return render_template('event.html', attending=attending, eid=eid, going=going, event=event)
         else:
             raise web.seeother('/login')
 

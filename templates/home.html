@@ -11,9 +11,14 @@
       <input type="submit" value="Logout">
     </form>
     <button onclick="window.location.href = 'profile/{{user.us_id}}';">My Profile</button>
+    <button onclick="window.location.href = 'newevent';">Make New Event</button>
     <form action="home" method="POST">
       <input type="text" name="ptxt" placeholder="Post Something..." autofocus>
       <input type="submit" value="Post">
+    </form>
+    <form action="search" method="GET">
+      <input type="text" name="srch" placeholder="Search for Users and Events">
+      <input type="submit" value="Search">
     </form>
     <table>
       {% for post in posts %}
@@ -84,4 +89,3 @@
     </table>
   </body>
 </html>
-

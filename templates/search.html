@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Search</title>
+    <link rel="shortcut icon" href="">
+  </head>
+  <body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF">
+    <p>
+      <b>Users:</b><br>
+      {% for user in users %}
+        <br><a href="profile/{{user.us_id}}">{{user.first_name}} {{user.last_name}}</a><br>
+      {% endfor %}
+      <br><b>Events:</b><br>
+      {% for event in events %}
+        <br><a href="event/{{event.ev_id}}">{{event.ev_name}}</a><br>
+      {% endfor %}
+    </p>
+  </body>
+</html>

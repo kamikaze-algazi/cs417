@@ -6,11 +6,8 @@
     <link rel="shortcut icon" href="">
   </head>
   <body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF">
-    <ul>
-      {% for attendee in attending %}
-        <li><a href='/profile/{{attendee.us_id}}'>{{attendee.first_name}} {{attendee.last_name}}</a>
-      {% endfor %}
-    </ul>
+    <h1>{{event.ev_name}}</h1>
+    <p>{{event.ev_desc}}</p>
     {% if not going %}
       <form action="/rsvp/{{eid}}" method="POST">
         <input type="submit" value="Going">
@@ -20,6 +17,12 @@
         <input type="submit" value="Not Going">
       </form>
     {% endif %}
+    <p>
+    Users Attending:
+    <table>
+      {% for attendee in attending %}
+        <br><a href='/profile/{{attendee.us_id}}'>{{attendee.first_name}} {{attendee.last_name}}</a>
+      {% endfor %}
+    </table>
   </body>
 </html>
-
