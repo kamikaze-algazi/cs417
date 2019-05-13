@@ -9,11 +9,39 @@ INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
 VALUES ('$pbkdf2-sha256$29000$.t9bK8W4FwIAIASA0JpT6g$5xB8Ek9lojNNHG9iiUGjsIBd9Kmz4ZLSHhTjDSVc2hM', 'Alyx', 'Algazi', 'kamikaze.algazi@gmail.com', '11-25-1996', 2);
 INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
 VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'Sunny', 'Jones', 'najon002@mail.goucher.edu', '03-22-1997', 3);
+INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
+VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'Destiny', 'Jones', 'decam@morgan.edu', '02-9-1998', 3);
+INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
+VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'Mike', 'Young', 'Justice@gmail.com', '03-23-1997', 2);
+INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
+VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'Damen', 'Rogersz', 'Damen.Rogers@gmail.com', '04-25-1989', 3);
+INSERT INTO "USER"(passwd, first_name, last_name, email, dob, prof_pic)
+VALUES ('$pbkdf2-sha256$29000$59w7BwCglDKmFOI855wTIg$AX2BuwfiA0ruoNhkv.eVr68kf5g7O5mYbW9/9yMHJvg', 'trentons', 'hams', 'hams@aol.com', '06-2-2000', 2);
+
+
+
+
 
 INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
 VALUES ('Christmas Dinner', 'Eat!', '2019-12-25 19:00:00', '2003 Chapel Ct.', 'Frederick', 'Maryland', '21702');
+
 INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
 VALUES ('sadboi club', ':(', '2020-04-20 16:20:00', '8417 Loch Raven Blvd', 'Towson', 'Maryland', '21218');
+INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
+VALUES ('42 Party', 'come party with time', '2019-04-20 18:30:00', 'Goucher College X-Lab', 'Towson', 'Maryland', '21218');
+
+INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
+VALUES ('Pride After Party', 'Its a celebration', '2019-06-14 11:00:00', '900 Druid Park Lake Dr', 'Baltimore', 'Maryland', '21217');
+
+INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
+VALUES ('Vania Vegan Eats Opening', 'Opening of new returant', '2019-08-27 13:00:00', '1 york road', 'Towson', 'Maryland', '21218');
+
+INSERT INTO "EVENT"(ev_name, ev_desc, ev_time, ev_street, ev_city, ev_state, ev_zip)
+VALUES ('Frank Ocean Release Party', 'What we all have been crying over!', '2023-07-10 20:20:20', '10 Art Museum Dr', 'Baltimore', 'Maryland', '21218');
+
+
+
+
 
 INSERT INTO "RSVP"(us_id, ev_id)
 VALUES ('1', '1');
