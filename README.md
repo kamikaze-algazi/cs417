@@ -10,6 +10,7 @@ pw='PsqlPword'
 db='PsqlDbase'
 ```
 replacing the quoted text items with the correct values.
+
 3. Using the command pip2 install PACKNAME, install the following packages
   * jinja2
   * passlib
