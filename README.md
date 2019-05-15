@@ -4,10 +4,11 @@
 ### Setup
 1. Ensure you have python 2 installed, and that a 'python2' syslink exists in the path.
 2. Create a PSQL user with any name and password. Create a file in the ~/.secrets/ directory called 'psqlauth.py'. Inside this file, copy paste the following, replacing the quoted text items with the correct values:
-    user='PsqlUname'
-    pw='PsqlPword'
-    db='PsqlDbase'
-    
+```
+user='PsqlUname'
+pw='PsqlPword'
+db='PsqlDbase'
+```    
 
 3. Using the command pip2 install PACKNAME, install the following packages
     * jinja2
