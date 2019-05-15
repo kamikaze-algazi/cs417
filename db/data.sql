@@ -67,34 +67,34 @@ VALUES ('2', '1');
 
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', '30 min', 'now'::timestamp - '30 minutes'::interval);
+VALUES ('1', 'Alyx Algazi', '30 min', 'now'::timestamp - '30 minutes'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', 'hour', 'now'::timestamp - '1 hour'::interval);
+VALUES ('1', 'Alyx Algazi', 'hour', 'now'::timestamp - '1 hour'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', 'six hr', 'now'::timestamp - '6 hours'::interval);
+VALUES ('1', 'Alyx Algazi', 'six hr', 'now'::timestamp - '6 hours'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', 'twelve hr', 'now'::timestamp - '12 hours'::interval);
+VALUES ('1', 'Alyx Algazi', 'twelve hr', 'now'::timestamp - '12 hours'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', '1 day', 'now'::timestamp - '1 day'::interval);
+VALUES ('1', 'Alyx Algazi', '1 day', 'now'::timestamp - '1 day'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', '3 days', 'now'::timestamp - '3 days'::interval);
+VALUES ('1', 'Alyx Algazi', '3 days', 'now'::timestamp - '3 days'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', '7 days', 'now'::timestamp - '7 days'::interval);
+VALUES ('1', 'Alyx Algazi', '7 days', 'now'::timestamp - '7 days'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', '8 days', 'now'::timestamp - '8 days'::interval);
+VALUES ('1', 'Alyx Algazi', '8 days', 'now'::timestamp - '8 days'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', 'month', 'now'::timestamp - '1 month'::interval);
+VALUES ('1', 'Alyx Algazi', 'month', 'now'::timestamp - '1 month'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', 'year', 'now'::timestamp - '1 year'::interval);
+VALUES ('1', 'Alyx Algazi', 'year', 'now'::timestamp - '1 year'::interval);
 
 INSERT INTO "POST"(us_id, pt_fullname, pt_txt, pt_time)
-VALUES ('1', 'ya boi', 'The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly but gets faster each minute after you hear this signal bodeboop. A sing lap should be completed every time you hear this sound. ding Remember to run in a straight line and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark. Get ready!… Start.', 'now'::timestamp - '2 years'::interval);
+VALUES ('1', 'Alyx Algazi', 'The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly but gets faster each minute after you hear this signal bodeboop. A sing lap should be completed every time you hear this sound. ding Remember to run in a straight line and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark. Get ready!… Start.', 'now'::timestamp - '2 years'::interval);
