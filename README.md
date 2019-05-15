@@ -1,7 +1,7 @@
 # Hello World
-## Alyx & Sunny CS417 Databases Project
+### Alyx & Sunny CS417 Databases Project
 
-### Setup
+## Setup
 1. Ensure you have python 2 installed, and that a 'python2' and a 'pip2' syslink exist in the path.
 2. Create a PSQL user with any name and password. Create a file in the ~/.secrets/ directory called 'psqlauth.py'. Inside this file, copy paste the following, replacing the quoted text items with the correct values:
 ```
