@@ -9,12 +9,12 @@ user='PsqlUname'
 pw='PsqlPword'
 db='PsqlDbase'
 ```
-replacing the quoted text items with the correct values.
+    replacing the quoted text items with the correct values.
 
 3. Using the command pip2 install PACKNAME, install the following packages
-  * jinja2
-  * passlib
-  * web.py
+    * jinja2
+    * passlib
+    * web.py
 4. Change the second line of the 'run' script to reflect your postgres password.
 5. Move the directory to ~/public_html/wsgi
 6. In the wsgi directory, type './run'
